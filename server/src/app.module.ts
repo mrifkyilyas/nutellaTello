@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from './config/config.module';
 import { UsersModule } from './users/users.module';
+import { UserSchema } from './users/schemas/user.schema';
+import { IsUniqueConstraint } from './global/validators/IsUnique';
 
 @Module({
   imports: [
@@ -16,10 +18,12 @@ import { UsersModule } from './users/users.module';
         useUnifiedTopology: true,
       },
     ),
+    // UsersModule,
+    MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
     ConfigModule,
-    UsersModule
+   
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, IsUniqueConstraint],
 })
 export class AppModule {}
